@@ -1,12 +1,13 @@
 import sqlite3 from 'sqlite3';
-import { promisify } from 'util';
-import { Task, SyncQueueItem } from '../types';
 
+// Importing SQLite in verbose mode for detailed logging
 const sqlite = sqlite3.verbose();
 
+// creating instance here 
 export class Database {
   private db: sqlite3.Database;
 
+  // takes file parameter 
   constructor(filename: string = ':memory:') {
     this.db = new sqlite.Database(filename);
   }
@@ -15,6 +16,8 @@ export class Database {
     await this.createTables();
   }
 
+
+  // creates tables in database
   private async createTables(): Promise<void> {
     const createTasksTable = `
       CREATE TABLE IF NOT EXISTS tasks (
@@ -48,7 +51,7 @@ export class Database {
     await this.run(createSyncQueueTable);
   }
 
-  // Helper methods
+  // Helper methods to execute queries here
   run(sql: string, params: any[] = []): Promise<void> {
     return new Promise((resolve, reject) => {
       this.db.run(sql, params, (err) => {
