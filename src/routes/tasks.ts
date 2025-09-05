@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { TaskService } from '../services/taskService';
 import { Database } from '../db/database';
 
+// Whenever we create a router, we pass the db instance to it and when user tries to access any endpoint, we use thta db instace to create service instance
 export function createTaskRouter(db: Database): Router {
   const router = Router();
   const taskService = new TaskService(db);
